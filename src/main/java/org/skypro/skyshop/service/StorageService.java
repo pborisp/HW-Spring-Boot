@@ -1,0 +1,65 @@
+package org.skypro.skyshop.service;
+
+import org.skypro.skyshop.model.article.Article;
+import org.skypro.skyshop.model.product.DiscountedProduct;
+import org.skypro.skyshop.model.product.FixPriceProduct;
+import org.skypro.skyshop.model.product.Product;
+import org.skypro.skyshop.model.product.SimpleProduct;
+import org.skypro.skyshop.model.search.Searchable;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@Service
+public class StorageService {
+    private final Map<UUID, Product> storageProduct;
+    private final Map<UUID, Article> storageArticle;
+
+    public StorageService(Map<UUID, Product> storageProduct, Map<UUID, Article> storageArticle) {
+        this.storageProduct = new HashMap<>();
+        this.storageArticle = new HashMap<>();
+        addProduct();
+    }
+
+    public Map<UUID, Product> getStorageProduct() {
+        return storageProduct;
+    }
+
+    public Map<UUID, Article> getStorageArticle() {
+        return storageArticle;
+    }
+
+    public Collection<Searchable> getAll() {
+        return Stream.concat(getStorageProduct().values().stream(), getStorageArticle().values().stream()).collect(Collectors.toList());
+    }
+
+    private void addProduct() {
+        Product table = new SimpleProduct("Стол", 15000, UUID.randomUUID());
+        this.storageProduct.put(table.getId(), table);
+        Product chair = new SimpleProduct("Стулллллллллллл", 7000, UUID.randomUUID());
+        this.storageProduct.put(chair.getId(), chair);
+        Product tv = new SimpleProduct("телевизор 2025", 75000, UUID.randomUUID());
+        this.storageProduct.put(tv.getId(), tv);
+        Product phone = new DiscountedProduct("телефон", 90000, 30, UUID.randomUUID());
+        this.storageProduct.put(phone.getId(), phone);
+        Product sofa = new DiscountedProduct("диван", 49000, 25, UUID.randomUUID());
+        this.storageProduct.put(sofa.getId(), sofa);
+        Product lamp = new FixPriceProduct("1светильник2025", UUID.randomUUID());
+        this.storageProduct.put(lamp.getId(), lamp);
+        Product soundbar = new DiscountedProduct("колонка", -17000, 15, UUID.randomUUID());
+        this.storageProduct.put(soundbar.getId(), soundbar);
+        Product bed = new SimpleProduct(" ", 34000, UUID.randomUUID());
+        this.storageProduct.put(bed.getId(), bed);
+        Product test = new SimpleProduct("ст стстстстстстстстсст", 200, UUID.randomUUID());
+        this.storageProduct.put(test.getId(), test);
+        Article weather = new Article("Погода март 2025 ", " Погода в этом году в марте как в мае!", UUID.randomUUID());
+        this.storageArticle.put(weather.getId(), weather);
+        Article set = new Article(" Комплект мебели со стулом", " Комплектом покупать всегда выгоднее: стол + стул + диван", UUID.randomUUID());
+        this.storageArticle.put(set.getId(), set);
+    }
+}
