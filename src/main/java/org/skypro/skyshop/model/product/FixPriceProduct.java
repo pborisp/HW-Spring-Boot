@@ -7,13 +7,8 @@ public class FixPriceProduct extends Product {
     private final UUID id;
 
     public FixPriceProduct(String nameProduct, UUID id) {
-        super(nameProduct);
+        super(nameProduct, id);
         this.id = id;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override

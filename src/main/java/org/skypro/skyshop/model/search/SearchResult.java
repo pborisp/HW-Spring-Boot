@@ -7,7 +7,7 @@ public class SearchResult {
     private final String name;
     private final String contentType;
 
-    public SearchResult(UUID id, String name, String contentType) {
+    public SearchResult(String name, UUID id, String contentType) {
         this.id = id;
         this.name = name;
         this.contentType = contentType;
@@ -15,7 +15,7 @@ public class SearchResult {
 
 
     public static SearchResult fromSearchable(Searchable searchable) {
-        return new SearchResult(searchable.getId(), searchable.getSearchTerm(), searchable.getTypeContent());
+        return new SearchResult(searchable.getSearchTerm(), searchable.getId(), searchable.getTypeContent());
     }
 
 }

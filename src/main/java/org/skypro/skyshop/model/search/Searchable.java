@@ -9,7 +9,7 @@ public interface Searchable {
 
     UUID getId();
 
-    default String getStringRepresentation(String s) {
-        return getSearchTerm() + " " + getTypeContent();
-    }
+//    default String getStringRepresentation() {
+//        return getSearchTerm() + " " + getTypeContent();
+//    }
 }

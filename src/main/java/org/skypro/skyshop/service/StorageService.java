@@ -8,34 +8,32 @@ import org.skypro.skyshop.model.product.SimpleProduct;
 import org.skypro.skyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 @Service
 public class StorageService {
     private final Map<UUID, Product> storageProduct;
     private final Map<UUID, Article> storageArticle;
 
-    public StorageService(Map<UUID, Product> storageProduct, Map<UUID, Article> storageArticle) {
+    public StorageService() {
         this.storageProduct = new HashMap<>();
         this.storageArticle = new HashMap<>();
         addProduct();
     }
 
-    public Map<UUID, Product> getStorageProduct() {
-        return storageProduct;
+    public List<Product> getStorageProduct() {
+        return new ArrayList<>(Collections.unmodifiableCollection(storageProduct.values()));
     }
 
-    public Map<UUID, Article> getStorageArticle() {
-        return storageArticle;
+    public List<Article> getStorageArticle() {
+        return new ArrayList<>(Collections.unmodifiableCollection(storageArticle.values()));
     }
 
-    public Collection<Searchable> getAll() {
-        return Stream.concat(getStorageProduct().values().stream(), getStorageArticle().values().stream()).collect(Collectors.toList());
+    public List<Searchable> getAll() {
+        List<Searchable> result = new ArrayList<>();
+        result.addAll(storageProduct.values());
+        result.addAll(storageArticle.values());
+        return result;
     }
 
     private void addProduct() {
@@ -53,7 +51,7 @@ public class StorageService {
         this.storageProduct.put(lamp.getId(), lamp);
         Product soundbar = new DiscountedProduct("колонка", -17000, 15, UUID.randomUUID());
         this.storageProduct.put(soundbar.getId(), soundbar);
-        Product bed = new SimpleProduct(" ", 34000, UUID.randomUUID());
+        Product bed = new SimpleProduct("c", 34000, UUID.randomUUID());
         this.storageProduct.put(bed.getId(), bed);
         Product test = new SimpleProduct("ст стстстстстстстстсст", 200, UUID.randomUUID());
         this.storageProduct.put(test.getId(), test);

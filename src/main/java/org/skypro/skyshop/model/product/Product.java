@@ -4,38 +4,42 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.skypro.skyshop.model.search.Searchable;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public abstract class Product implements Searchable {
     private String nameProduct;
+    private final UUID id;
 
-    public Product(String nameProduct) {
+
+    public Product(String nameProduct, UUID id) {
         try {
             definitionNullString(nameProduct);
         } catch (IllegalArgumentException e) {
             System.out.println("Неправильное название продукта или название отсутствует");
         }
         this.nameProduct = nameProduct;
+        this.id = id;
     }
 
-    public void definitionNullString(String nameProduct) {
+    void definitionNullString(String nameProduct) {
         if (nameProduct.isBlank()) {
             throw new IllegalArgumentException("Неправильное название продукта или название отсутствует");
         }
     }
 
-    public void definitionPrice(int price) {
+    void definitionPrice(int price) {
         if (price <= 0) {
             throw new IllegalArgumentException("Цена не может быть меньше или равна 0");
         }
     }
 
-    public void definitionBasePrice(int basePrice) {
+    void definitionBasePrice(int basePrice) {
         if (basePrice <= 0) {
             throw new IllegalArgumentException("Цена не может быть меньше или равна 0");
         }
     }
 
-    public void definitionDiscount(int discount) {
+    void definitionDiscount(int discount) {
         if (discount < 0 || discount > 100) {
             throw new IllegalArgumentException("Процент скидки должен быть в диапазоне от 0 до 100 включительно");
         }
@@ -43,6 +47,11 @@ public abstract class Product implements Searchable {
 
     public String getNameProduct() {
         return nameProduct;
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 
     public abstract Boolean isSpecial();

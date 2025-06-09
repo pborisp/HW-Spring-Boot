@@ -5,10 +5,10 @@ import java.util.UUID;
 public class DiscountedProduct extends Product {
     private int basePrice;
     private int discount;
-    private final UUID id;
+
 
     public DiscountedProduct(String nameProduct, int basePrice, int discount, UUID id) {
-        super(nameProduct);
+        super(nameProduct, id);
         try {
             definitionBasePrice(basePrice);
         } catch (IllegalArgumentException e) {
@@ -21,12 +21,6 @@ public class DiscountedProduct extends Product {
             System.out.println("Процент скидки должен быть в диапазоне от 0 до 100 включительно");
         }
         this.discount = discount;
-        this.id = id;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override

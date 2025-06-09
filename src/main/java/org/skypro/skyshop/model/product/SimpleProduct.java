@@ -7,7 +7,7 @@ public class SimpleProduct extends org.skypro.skyshop.model.product.Product {
     private final UUID id;
 
     public SimpleProduct(String nameProduct, int price, UUID id) {
-        super(nameProduct);
+        super(nameProduct, id);
         try {
             definitionPrice(price);
         } catch (IllegalArgumentException e) {
@@ -31,10 +31,5 @@ public class SimpleProduct extends org.skypro.skyshop.model.product.Product {
     public String toString() {
         return super.toString()
                 + '\'' + " : " + price + " рублей";
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 }

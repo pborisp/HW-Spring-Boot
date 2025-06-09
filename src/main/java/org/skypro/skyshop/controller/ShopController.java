@@ -14,24 +14,25 @@ import java.util.*;
 @RestController
 public class ShopController {
     private final StorageService storageService;
+    private final SearchService searchService;
 
-    public ShopController(StorageService storageService) {
+    public ShopController(StorageService storageService, SearchService searchService) {
         this.storageService = storageService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/products")
     public Collection<Product> getAllProducts() {
-        return storageService.getStorageProduct().values();
+        return storageService.getStorageProduct();
     }
 
     @GetMapping("/articles")
     public Collection<Article> getAllArticles() {
-        return storageService.getStorageArticle().values();
+        return storageService.getStorageArticle();
     }
 
     @GetMapping("/search")
-    public Set<Searchable> getPattern(@RequestParam String pattern) {
-        SearchService search = new SearchService(storageService);
-        return search.search(pattern);
+    public List<Searchable> getPattern(@RequestParam String pattern) {
+        return searchService.search(pattern);
     }
 }
