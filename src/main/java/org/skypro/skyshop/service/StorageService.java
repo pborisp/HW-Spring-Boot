@@ -21,12 +21,12 @@ public class StorageService {
         addProduct();
     }
 
-    public List<Product> getStorageProduct() {
-        return new ArrayList<>(Collections.unmodifiableCollection(storageProduct.values()));
+    public Collection<Product> getStorageProduct() {
+        return Collections.unmodifiableCollection(storageProduct.values());
     }
 
-    public List<Article> getStorageArticle() {
-        return new ArrayList<>(Collections.unmodifiableCollection(storageArticle.values()));
+    public Collection<Article> getStorageArticle() {
+        return Collections.unmodifiableCollection(storageArticle.values());
     }
 
     public List<Searchable> getAll() {
@@ -34,6 +34,10 @@ public class StorageService {
         result.addAll(storageProduct.values());
         result.addAll(storageArticle.values());
         return result;
+    }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(storageProduct.get(id));
     }
 
     private void addProduct() {
