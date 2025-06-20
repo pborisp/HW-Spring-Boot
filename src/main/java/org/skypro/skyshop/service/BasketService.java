@@ -21,14 +21,14 @@ public class BasketService {
     }
 
     public void addProduct(UUID id) {
-        storageService.getProductById(id).orElseThrow(() -> new IllegalArgumentException());
+        storageService.getProductById(id).orElseThrow(() -> new NoSuchProductException());
         basketService.addProductToBasket(id);
     }
 
     public UserBasket getUserBasket() {
         Map<UUID, Integer> basketMap = basketService.getBasket();
         List<BasketItem> userBasket = basketMap.entrySet().stream()
-                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
+                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(() -> new NoSuchProductException()), map.getValue()))
                 .collect(Collectors.toCollection(() -> new ArrayList<BasketItem>()));
         return new UserBasket(userBasket);
     }
