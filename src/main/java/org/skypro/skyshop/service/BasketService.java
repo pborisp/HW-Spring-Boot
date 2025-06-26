@@ -27,9 +27,13 @@ public class BasketService {
 
     public UserBasket getUserBasket() {
         Map<UUID, Integer> basketMap = basketService.getBasket();
-        List<BasketItem> userBasket = basketMap.entrySet().stream()
-                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(() -> new NoSuchProductException()), map.getValue()))
-                .collect(Collectors.toCollection(() -> new ArrayList<BasketItem>()));
-        return new UserBasket(userBasket);
+        if (basketMap.isEmpty()) {
+            return null;
+        } else {
+            List<BasketItem> userBasket = basketMap.entrySet().stream()
+                    .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(() -> new NoSuchProductException()), map.getValue()))
+                    .collect(Collectors.toCollection(() -> new ArrayList<BasketItem>()));
+            return new UserBasket(userBasket);
+        }
     }
 }
