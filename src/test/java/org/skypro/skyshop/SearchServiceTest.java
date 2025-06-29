@@ -26,28 +26,30 @@ public class SearchServiceTest {
     @Test
     void givenStorageService_WhenStorageServiceNotFind_ThenReturnIsNull() {
         Mockito.when(storageService.getAll()).thenReturn(Collections.emptyList());
+
         boolean result = searchService.search("test").isEmpty();
+
         Assertions.assertEquals(true, result);
     }
 
     @Test
     void givenObjectsWhenSearchResultIsNullThenOk() {
         Mockito.when(searchService.search("test")).thenReturn(Collections.emptyList());
+
         List<Searchable> result = searchService.search("test");
+
         Assertions.assertEquals(new ArrayList<>(), result);
     }
 
     @Test
     void givenObjectsWhenSearchNotIsNullThenOk() {
-        //given
         Product table = new SimpleProduct("Стол", 15000, UUID.randomUUID());
         List<Searchable> test = new ArrayList<>();
         test.add(table);
-//        Mockito.when(searchService.search("Стол")).thenReturn(test);
         Mockito.when((storageService.getAll())).thenReturn(test);
-        //when
+
         List<Searchable> result = searchService.search("Стол");
-        //Then
+
         Assertions.assertEquals(test, result);
     }
 }

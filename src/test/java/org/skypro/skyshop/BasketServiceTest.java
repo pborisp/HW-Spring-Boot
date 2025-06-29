@@ -33,34 +33,36 @@ public class BasketServiceTest {
     @Test
     void givenProductIsNull_whenAddProduct_thenThrowNoSuchProductException() {
         UUID id = randomUUID();
+
         Mockito.when(storageService.getProductById(any(UUID.class))).thenThrow(NoSuchProductException.class);
+
         Assertions.assertThrows(NoSuchProductException.class, () -> basketService.addProduct(id));
     }
 
     @Test
     void givenProduct_whenAddProduct_thenOk() {
-        //given
         UUID id = randomUUID();
         Product table = new SimpleProduct("Стол", 15000, id);
         Map<UUID, Product> test = new HashMap<>();
         test.put(id, table);
         Mockito.when(storageService.getProductById(id)).thenReturn(Optional.ofNullable(test.get(id)));
-        //when
+
         basketService.addProduct(id);
-        //then
+
         Mockito.verify(productBasket, Mockito.times(1)).addProductToBasket(id);
     }
 
     @Test
     void givenProductBasketIsNull_whenGetUserBasket_thenBasketIsNull() {
         Mockito.when(productBasket.getBasket()).thenReturn(Collections.emptyMap());
+
         UserBasket result = basketService.getUserBasket();
+
         Assertions.assertEquals(null, result);
     }
 
     @Test
     void givenProductBasketFull_whenGetUserBasket_thenReturnBasket() {
-        //given
         UUID id = randomUUID();
         Product table = new SimpleProduct("Стол", 15000, id);
         Map<UUID, Product> test = new HashMap<>();
@@ -68,9 +70,9 @@ public class BasketServiceTest {
         Mockito.when(storageService.getProductById(id)).thenReturn(Optional.ofNullable(test.get(id)));
         productBasket.addProductToBasket(id);
         basketService.addProduct(id);
-        //when
+
         UserBasket basket = basketService.getUserBasket();
-        //then
+
         Assertions.assertNull(basket);
     }
 }
